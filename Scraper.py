@@ -53,23 +53,33 @@ def scrape_mal(anime_url):
 
 # title: idx 0, authors: idx 1, genres: idx 2, cover image: idx 3, 
 # series type: idx 4, series status idx 5, publish date: idx 6, summary: idx 7, seriesID: idx 8 
-# last scraped id: 141 
-# curr val 3669
+# last scraped id: 1091
+# curr val 3669 166659
 
 anime_url = "https://myanimelist.net/manga/"
 with open ('test.csv','a', newline='') as my_file:
     csv_writer = csv.writer(my_file)
-    csv_writer.writerow(['title', 'authors', 'genres', 'cover image', 'series type', 'series status', 'publish date', 'summary', 'seriesID'])
-
-    for i in range(1000000):
-        print(i)
-        res = scrape_mal(anime_url + str(i))
-        if res != []:
-            res.append(str(i))
-            csv_writer.writerow(res)
-        time.sleep(0.1) 
-
+    #headers for csv file 
+    #csv_writer.writerow(['title', 'authors', 'genres', 'cover image', 'series type', 'series status', 'publish date', 'summary', 'seriesID'])
+    currVal = 86153  #last scraped id file  
+    #scraped 18039k
+    
+    while currVal < 1000000:
+        start = currVal
+        try: 
+            for i in range(start,1000000):
+                print(i)
+                res = scrape_mal(anime_url + str(i))
+                if res != []:
+                    res.append(str(i))
+                    csv_writer.writerow(res)
+                    
+                time.sleep(3)
+                currVal += 1
+                
+        except: 
+            print("curr value is: " + str(currVal))
+            currVal += 1
+            
 
 # print(scrape_mal(anime_url))
-
-
